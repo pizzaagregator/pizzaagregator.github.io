@@ -13,6 +13,15 @@
     <link href="Content/styles/load-cube.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+    <script>
+        if('serviceWorker' in navigator) 
+        {
+            navigator.serviceWorker
+                .register('sw.js')
+                .then(function() { console.log("Service Worker Registered"); });
+        }
+    </script>
+
     <div class="layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
         <header class="header mdl-layout__header">
             <div class="mdl-layout__header-row">
