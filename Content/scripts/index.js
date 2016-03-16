@@ -1,5 +1,5 @@
 ﻿var pizzas;
-
+var paginator;
 $(document).ready(function ()
 {
     $("#serach-button").click(search);
@@ -17,7 +17,7 @@ $(document).ready(function ()
         });
         $(".cssload-thecube").hide(400);
         $("#pizzas-container").show(700);
-        });
+     });
 });
 
 function search()
