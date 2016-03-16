@@ -7,14 +7,11 @@ $(document).ready(function ()
     $.getJSON(url, null, function (data) 
     {
         pizzas = data;
-        $("#pizzaTemplate").tmpl(data);
-
         $("#pagination").twbsPagination({
             totalPages: Math.round(data.length / 6.0 + 0.49),
             onPageClick: function (event, page) {
                 $("#pizzas-container").empty();
                 $("#pizzaTemplate").tmpl(data.slice(page * 6 - 6, page * 6 + 6 - 6)).appendTo("#pizzas-container");
-                //pizzas.slice(page * 6 - 6, page * 6 + 6 - 6).appendTo("#pizzas-container");
                 $('main').animate({ scrollTop: "0px" }, 'slow');
             }
         });
