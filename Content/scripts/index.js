@@ -7,7 +7,7 @@ $(document).ready(function ()
     $.getJSON(url, null, function (data) 
     {
         pizzas = data;
-        $("#pizzaTemplate").tmpl(data).load(function(){
+        $("#pizzaTemplate").tmpl(data);
 
         $("#pagination").twbsPagination({
             totalPages: Math.round(data.length / 6.0 + 0.49),
@@ -21,7 +21,6 @@ $(document).ready(function ()
         $(".cssload-thecube").hide(400);
         $("#pizzas-container").show(700);
         });
-    });
 });
 
 function search()
