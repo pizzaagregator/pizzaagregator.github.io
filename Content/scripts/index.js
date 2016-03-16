@@ -6,15 +6,15 @@ $(document).ready(function ()
     var url = "pizzas.json";
     $.getJSON(url, null, function (data) 
     {
-        //pizzas = data;
-        pizzas = $("#pizzaTemplate").tmpl(data).load(function(){
+        pizzas = data;
+        $("#pizzaTemplate").tmpl(data).load(function(){
 
         $("#pagination").twbsPagination({
             totalPages: Math.round(data.length / 6.0 + 0.49),
             onPageClick: function (event, page) {
                 $("#pizzas-container").empty();
-                //$("#pizzaTemplate").tmpl(data.slice(page * 6 - 6, page * 6 + 6 - 6)).appendTo("#pizzas-container");
-                pizzas.slice(page * 6 - 6, page * 6 + 6 - 6).appendTo("#pizzas-container");
+                $("#pizzaTemplate").tmpl(data.slice(page * 6 - 6, page * 6 + 6 - 6)).appendTo("#pizzas-container");
+                //pizzas.slice(page * 6 - 6, page * 6 + 6 - 6).appendTo("#pizzas-container");
                 $('main').animate({ scrollTop: "0px" }, 'slow');
             }
         });
