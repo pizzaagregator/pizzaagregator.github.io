@@ -1,5 +1,5 @@
 ﻿var pizzas;
-var paginator;
+
 $(document).ready(function ()
 {
     $("#serach-button").click(search);
@@ -7,7 +7,6 @@ $(document).ready(function ()
     $.getJSON(url, null, function (data) 
     {
         pizzas = data;
-
         $("#pagination").twbsPagination({
             totalPages: Math.round(data.length / 6.0 + 0.49),
             onPageClick: function (event, page) {
@@ -18,7 +17,7 @@ $(document).ready(function ()
         });
         $(".cssload-thecube").hide(400);
         $("#pizzas-container").show(700);
-    });
+        });
 });
 
 function search()

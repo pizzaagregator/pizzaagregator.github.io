@@ -1,5 +1,4 @@
 importScripts('/cache-polyfill.js');
-importScripts('/scripts/jquery-2.1.4.min.js');
 
 self.addEventListener('install', function(e) {
   e.waitUntil(
