@@ -1,5 +1,4 @@
 importScripts('/cache-polyfill.js');
-importScripts('/scripts/jquery-2.1.4.min.js');
 
 self.addEventListener('install', function(e) {
   e.waitUntil(
@@ -54,4 +53,24 @@ self.addEventListener('fetch', function(event) {
         );
       })
     );
+});
+
+self.addEventListener('periodicsync', function(event) {
+  if (event.registration.tag == 'get-latest-pizzas') {
+    event.waitUntil(function()
+    {
+        var info;
+              caches.open('pizzaagregator')
+              .then(function(cache) {
+                cache.put('/pizzas.json',info);
+                console.log(info); 
+                //cache.delete('/pizzas.json');
+
+              });
+    });
+  }
+  else {
+    // unknown sync, may be old, best to unregister
+    event.registration.unregister();
+  }
 });
