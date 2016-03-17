@@ -13,7 +13,6 @@ self.addEventListener('install', function(e) {
         '/Content/styles/material.brown-blue.min.css',
         'https://fonts.googleapis.com/css?family=Abel',
         'https://fonts.googleapis.com/icon?family=Material+Icons',
-        '/Content/scripts/',
         '/pizzas.json'
       ]).then(function() {
         return self.skipWaiting();
@@ -38,7 +37,7 @@ self.addEventListener('fetch', function(event) {
 
         return fetch(fetchRequest).then(
           function(response) {
-            if(!response || response.status !== 200 || response.type !== 'basic') {
+            if(!response || response.status !== 200) {
               return response;
             }
             var responseToCache = response.clone();
