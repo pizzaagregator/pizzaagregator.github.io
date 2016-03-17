@@ -13,7 +13,8 @@ self.addEventListener('install', function(e) {
         '/Content/styles/material.brown-blue.min.css',
         'https://fonts.googleapis.com/css?family=Abel',
         'https://fonts.googleapis.com/icon?family=Material+Icons',
-        '/pizzas.json'
+        '/pizzas.json',
+        'http://brest.pizza-italiana.by/images/pizza/4myasa.jpg'
       ]).then(function() {
         return self.skipWaiting();
       });
@@ -23,7 +24,8 @@ self.addEventListener('install', function(e) {
 
 
 self.addEventListener('activate', function(event) {
-  event.waitUntil(self.clients.claim());
+  //event.waitUntil(self.clients.claim());
+  event.waitUntil();
 });
 
 self.addEventListener('fetch', function(event) {
