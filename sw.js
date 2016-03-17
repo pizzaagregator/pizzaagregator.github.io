@@ -13,8 +13,7 @@ self.addEventListener('install', function(e) {
         '/Content/styles/material.brown-blue.min.css',
         'https://fonts.googleapis.com/css?family=Abel',
         'https://fonts.googleapis.com/icon?family=Material+Icons',
-        '/pizzas.json',
-        'http://brest.pizza-italiana.by/images/pizza/4myasa.jpg'
+        '/pizzas.json'
       ]).then(function() {
         return self.skipWaiting();
       });
