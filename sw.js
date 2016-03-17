@@ -23,8 +23,7 @@ self.addEventListener('install', function(e) {
 
 
 self.addEventListener('activate', function(event) {
-  //event.waitUntil(self.clients.claim());
-  event.waitUntil();
+  event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('fetch', function(event) {
