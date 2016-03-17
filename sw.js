@@ -8,12 +8,12 @@ self.addEventListener('install', function(e) {
         '/index.html',
         '/index.html?homescreen=1',
         '/?homescreen=1',
-        '/styles/Site.css',
-        '/styles/load-cube.css',
-        '/styles/material.brown-blue.min.css',
+        '/Content/styles/Site.css',
+        '/Content/styles/load-cube.css',
+        '/Content/styles/material.brown-blue.min.css',
         'https://fonts.googleapis.com/css?family=Abel',
         'https://fonts.googleapis.com/icon?family=Material+Icons',
-        '/scripts/',
+        '/Content/scripts/',
         '/pizzas.json'
       ]).then(function() {
         return self.skipWaiting();
@@ -53,24 +53,4 @@ self.addEventListener('fetch', function(event) {
         );
       })
     );
-});
-
-self.addEventListener('periodicsync', function(event) {
-  if (event.registration.tag == 'get-latest-pizzas') {
-    event.waitUntil(function()
-    {
-        var info;
-              caches.open('pizzaagregator')
-              .then(function(cache) {
-                cache.put('/pizzas.json',info);
-                console.log(info); 
-                //cache.delete('/pizzas.json');
-
-              });
-    });
-  }
-  else {
-    // unknown sync, may be old, best to unregister
-    event.registration.unregister();
-  }
 });

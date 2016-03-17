@@ -24,16 +24,6 @@
                     navigator.serviceWorker.ready.then(function(registration) { 
                        console.log("Service Worker Ready");
                     });
-                    navigator.serviceWorker.ready.then(function(registration) {
-                    registration.periodicSync.register({
-                    tag: 'get-latest-pizzas',         // default: ''
-                    minPeriod: 60 * 1000 // default: 0
-                    }).then(function(periodicSyncReg) {
-                    // success
-                    }, function() {
-                    // failure
-                    })
-                    });
                   }
     </script>
 
