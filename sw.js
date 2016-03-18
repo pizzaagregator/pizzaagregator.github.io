@@ -43,7 +43,7 @@ self.addEventListener('fetch', function(event) {
 
 function changeImageUrl(url)
 {
-    var newUrl = url.replace(new RegExp("http://",'g'),"/Images/").replace(new RegExp("/",'g'),"-");
+    var newUrl = url.replace(new RegExp("/",'g'),"-").replace(new RegExp("http:--",'g'),"/Images/");
     console.log(newUrl);
     return newUrl;
 }
