@@ -13,7 +13,8 @@ self.addEventListener('install', function(e) {
         '/Content/styles/material.brown-blue.min.css',
         'https://fonts.googleapis.com/css?family=Abel',
         'https://fonts.googleapis.com/icon?family=Material+Icons',
-        '/pizzas.json'
+        '/pizzas.json',
+        new Request('//www.nasha-pizza.by/components/com_jshopping/files/img_products/flor.jpg',{mode:'no-cors'})
       ]).then(function() {
         return self.skipWaiting();
       });
@@ -33,7 +34,7 @@ self.addEventListener('fetch', function(event) {
         if (response) {
           return response;
         }
-        return fetch(event.request);
+        return fetch(event.request,{mode: 'no-cors'});
       }
     )
   );
