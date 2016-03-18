@@ -14,6 +14,7 @@ self.addEventListener('install', function(e) {
         'https://fonts.googleapis.com/css?family=Abel',
         'https://fonts.googleapis.com/icon?family=Material+Icons',
         '/pizzas.json',
+        changeImageUrl('http://www.nasha-pizza.by/components/com_jshopping/files/img_products/flor.jpg')
       ]).then(function() {
         return self.skipWaiting();
       });
@@ -38,3 +39,11 @@ self.addEventListener('fetch', function(event) {
     )
   );
 });
+
+
+function changeImageUrl(url)
+{
+    var newUrl = url.replace(new RegExp("http://",'g'),"/Images/").replace(new RegExp("/",'g'),"-");
+    console.log(newUrl);
+    return newUrl;
+}
