@@ -14,19 +14,6 @@
     <link rel="manifest" href="/manifest.json">
 </head>
 <body>
-    <script>
-                  if('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-                      .then(function(registration) { 
-                            console.log("Service Worker Registered"); 
-                      });
-                      
-                    navigator.serviceWorker.ready.then(function(registration) { 
-                       console.log("Service Worker Ready");
-                    });
-                  }
-    </script>
-
     <div class="layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
         <header class="header mdl-layout__header">
             <div class="mdl-layout__header-row">
