@@ -20,6 +20,7 @@ $(document).ready(function ()
     $.getJSON(url, null, function (data) 
     {
         pizzas = data;
+        $("#pizzaTemplate").tmpl(data).appendTo("#pizzas-container");
         $("#pagination").twbsPagination({
             totalPages: Math.round(data.length / 6.0 + 0.49),
             onPageClick: function (event, page) {
