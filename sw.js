@@ -34,8 +34,7 @@ self.addEventListener('fetch', function(event) {
         if (response) {
           return response;
         }
-        event.request.url = changeImageUrl(event.request.url);
-        return fetch(event.request);
+        return fetch(changeImageUrl(event.request.url));
       }
     )
   );
