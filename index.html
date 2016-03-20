@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Pizza Aggregator">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PizzaAggregator</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abel" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="Content/styles/material.brown-blue.min.css" rel="stylesheet" type="text/css" />
+    <link href="Content/styles/Site.css" rel="stylesheet" type="text/css" />
+    <link href="Content/styles/load-cube.css" rel="stylesheet" type="text/css" />
+    <link rel="manifest" href="/manifest.json">
+</head>
+<body>
+    <div class="layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
+        <header class="header mdl-layout__header">
+            <div class="mdl-layout__header-row">
+                <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+                <span class="mdl-layout-title">Pizza Aggregator</span>
+                <div class="mdl-layout-spacer"></div>
+                <nav class="mdl-navigation">
+                    <a class="mdl-navigation__link" href="">Home</a>
+                    <a class="mdl-navigation__link" href="">About</a>
+                </nav>
+                <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+            </div>
+        </header>
+        <main class="mdl-layout__content">
+            <div class="search-grid mdl-grid">
+                <div class="mdl-cell mdl-cell--4-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+                <div class="search-container mdl-cell mdl-cell--4-col mdl-cell--12-col-phone mdl-cell--12-col-tablet">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="keywords">
+                        <label class="mdl-textfield__label" for="keywords">Keywords</label>
+                    </div>
+                    <button id="serach-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                        Search
+                    </button>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+            </div>
+            <div class="main-grid mdl-grid">
+                <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+                <div class="items-container mdl-cell mdl-cell--8-col mdl-cell--12-col-phone mdl-cell--12-col-tablet">
+                    <label class="items-label">
+                        Items
+                    </label>
+                    <div class="cssload-thecube">
+                        <div class="cssload-cube cssload-c1"></div>
+                        <div class="cssload-cube cssload-c2"></div>
+                        <div class="cssload-cube cssload-c4"></div>
+                        <div class="cssload-cube cssload-c3"></div>
+                    </div>
+                    <script id="pizzaTemplate" type="text/x-jquery-tmpl">
+                        <div class="mdl-cell mdl-cell--4-col">
+                            <div class="mdl-card mdl-shadow--4dp">
+                                <img class="mdl-card__image" src=${ImageUrl} />
+                                <div class="mdl-card__pizzaname">
+                                    ${Name}
+                                </div>
+                                <div class="mdl-card__supporting-text">
+                                    ${Сomposition}
+                                    <div class="table">
+                                        <table class="mdl-data-table mdl-js-data-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Weight</th>
+                                                    <th>Coast</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{each $data.WeightCostPairs}}
+                                                <tr>
+                                                    <td>${$value.Weight}</td>
+                                                    <td>${$value.Cost}</td>
+                                                </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="customer-name">
+                                        <span class="customer-name-tittle"><b>Customer:</b></span>
+                                        <span class="customer-name-text">${CompanyName}</span>
+                                    </div>
+                                </div>
+                                <div class="mdl-card__actions mdl-card--border">
+                                    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="${Url}">
+                                        Original Page
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </script>
+                    <div id="pizzas-container" class="pizzas-container mdl-grid" style="display:none"></div>
+                </div>
+                <div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
+            </div>
+                <ul id="pagination" class="pagination"></ul>
+            <footer class="footer mdl-mini-footer">
+                <div class="mdl-mini-footer--left-section">
+                    <ul class="mdl-mini-footer--link-list">
+                        <li><a href="#">Help</a></li>
+                        <li><a href="#">Privacy and Terms</a></li>
+                        <li><a href="#">User Agreement</a></li>
+                    </ul>
+                </div>
+            </footer>
+        </main>
+    </div>
+    <script src="Content/scripts/material.min.js"></script>
+    <script src="Content/scripts/jquery-2.1.4.min.js"></script>
+    <script src="Content/scripts/jquery.tmpl.min.js"></script>
+    <script src="Content/scripts/jquery.twbsPagination.min.js"></script>    
+    <script src="Content/scripts/index.js"></script>
+</body>
+</html>
