@@ -1,4 +1,5 @@
-﻿var pizzas;
+﻿'use strict';
+var pizzas;
 var paginator;
 
 
@@ -12,17 +13,23 @@ $(document).ready(function ()
                 });      
              navigator.serviceWorker.ready.then(function(registration) 
                 { 
-                    'use strict';
+                    console.log("Service Worker Ready");
+                });
+                
+                navigator.serviceWorker.addEventListener('message', function(event) { 
                     var snackbarContainer = document.querySelector('#demo-snackbar-example');
                     var data = {
                                 message: "Application ready to work offline",
                                 timeout: 4000,
                                 actionText: 'Undo'
                                 };
-                    snackbarContainer.MaterialSnackbar.showSnackbar(data);
-                    console.log("Service Worker Ready");
-                });
-        } 
+                    if(snackbarContainer && snackbarContainer.MaterialSnackbar && snackbarContainer.MaterialSnackbar.showSnackbar)
+                    {
+                        snackbarContainer.MaterialSnackbar.showSnackbar(data);
+                        }
+                    console.log("message event");
+                    });
+          } 
     
     $("#serach-button").click(search);
     var url = "pizzas.json";
