@@ -14,16 +14,17 @@ self.addEventListener('install', function(e) {
         'https://fonts.googleapis.com/css?family=Abel',
         'https://fonts.googleapis.com/icon?family=Material+Icons',
         '/pizzas.json'
-      ]).then(function() {
-        return self.skipWaiting();
-      });
+      ]).then(function() {  addImages(); return self.skipWaiting()});
     })
   );
 });
 
 
 self.addEventListener('activate', function(event) {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil
+  (      
+      self.clients.claim()
+  );
 });
 
 
@@ -39,4 +40,28 @@ self.addEventListener('fetch', function(event) {
     )
   );
 });
+
+function addImages()
+{
+    var urls = [];
+    caches.match('/pizzas.json').then(function(responce)
+        {           
+            responce.json().then(function(json)
+                {
+                    for(var i = 0; i < json.length; i++)
+                        {
+                            urls.push(json[i].ImageUrl);
+                        }
+                });
+        });        
+    caches.open('pizzaagregator').then(function(cache) {
+      return cache.addAll(urls).then(function() 
+      {
+           //self.clients.matchAll().then(all => all.map(client => client.postMessage("Application ready to work offline")));
+           return self.skipWaiting()
+      });
+    })
+        
+}
+
 
