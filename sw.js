@@ -63,11 +63,5 @@ self.addEventListener('fetch', function(event) {
 
 function getUrls()
 {            
-    return   caches.match('/pizzas.json')
-    .then(function(responce){
-        return  responce.json();})
-    .then(function(json){
-        return json.map(function(data){
-          return data.ImageUrl;  
-        } )});
+    return   fetch('/pizzas.json').then(function(responce){return  responce.json();}).then(function(json){return json.map(function(data) {return data.ImageUrl} )});
 }
