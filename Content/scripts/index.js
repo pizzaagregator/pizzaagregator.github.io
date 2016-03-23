@@ -19,7 +19,7 @@ $(document).ready(function ()
                 navigator.serviceWorker.addEventListener('message', function(event) { 
                     var snackbarContainer = document.querySelector('#demo-snackbar-example');
                     var data = {
-                                message: "Application ready to work offline",
+                                message: event.data,
                                 timeout: 4000,
                                 actionText: 'Undo'
                                 };
