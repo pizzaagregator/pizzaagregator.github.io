@@ -1,9 +1,9 @@
 importScripts('/cache-polyfill.js');
 
-self.addEventListener('install', function(e) 
+self.addEventListener('install', (e) => 
 {
   e.waitUntil(
-            caches.open('pizzaagregator').then(function(cache) 
+            caches.open('pizzaagregator').then((cache) => 
             {
                 return cache.addAll
                 ([
@@ -26,26 +26,32 @@ self.addEventListener('install', function(e)
                 ])
             }));
 
-            getUrls().then(function(data)
+            getUrls()
+            .then((data) =>
             {
                 caches.open('images')
-                .then(function(cache) 
+                .then((cache) => 
                     {
                         return cache.addAll(data);    
                     })
-                    .then(function(){self.clients.matchAll().then(all => all.map(client => client.postMessage("Application ready to work offline")));});    
-                    })
-
+                .then(() =>
+                {
+                    self.clients.matchAll()
+                    .then(all => all.map(client => client.postMessage("Application ready to work offline")));
+                });    
+            })
 });
 
 function getUrls()
 {            
-    return fetch('/pizzas.json').then(function(responce)
+    return fetch('/pizzas.json')
+    .then((responce) =>
     {
         return  responce.json()
-    }).then(function(json)
+    })
+    .then((json) =>
     {
-        return json.map(function(data) 
+        return json.map((data) => 
         {
             return data.ImageUrl
         })
@@ -53,7 +59,8 @@ function getUrls()
 }
 
 
-self.addEventListener('activate', function(event) { 
+self.addEventListener('activate', (event) => 
+{ 
   console.log("activate event");
   event.waitUntil
   (
@@ -61,7 +68,7 @@ self.addEventListener('activate', function(event) {
   );
 });
 
-self.addEventListener('fetch', function(event) 
+self.addEventListener('fetch', (event) => 
 {
     event.respondWith(helper(event.request));
 });
@@ -80,34 +87,33 @@ function helper(request)
 
 function standartFetchFunction(request)
 {
-    return caches.match(request)
-      .then(function(response) 
-      {
-        if (response) 
-        {
-            return response;
-        }
-        var fetchRequest = event.request.clone();
-
-        return fetch(fetchRequest).then(
-          function(response)
-          {
-            if(!response || response.status !== 200) 
+    return  caches.match(request)
+            .then((response) =>
             {
-                return response;
-            }
-            var responseToCache = response.clone();
+                if (response) 
+                {
+                    return response;
+                }
+                var fetchRequest = event.request.clone();
 
-            caches.open('pizzaagregator')
-              .then(function(cache) 
-              {
-                cache.put(event.request, responseToCache);
-              });
+                return fetch(fetchRequest)
+                .then((response) =>
+                {
+                    if(!response || response.status !== 200) 
+                    {
+                        return response;
+                    }
+                    var responseToCache = response.clone();
 
-            return response;
-          }
-        );
-      })
+                    caches.open('pizzaagregator')
+                    .then((cache) => 
+                    {
+                        cache.put(event.request, responseToCache);
+                    });
+                    return response;
+                }
+                );
+            })
 }
 
 
@@ -115,23 +121,25 @@ function UpdatePizzas()
 {
     let oldresponce;
     let newresponce;
-    return caches.match('/pizzas.json').then(function(resp)
-    {
-    oldresponce = resp.clone();
-    return fetch('/pizzas.json').then(function(response)
-    {
-        newresponce = response.clone();
-        if(response.status === 200 && newresponce.headers.get('Last-Modified') != oldresponce.headers.get('Last-Modified'))
-        {
-            var responseToCache = response.clone();
-            return UpdateCache(responseToCache);
-        }
-        else
-        {
-            return standartFetchFunction('/pizzas.json');
-        }
-    })
-    })
+    return  caches.match('/pizzas.json')
+            .then((resp) =>
+            {
+                oldresponce = resp.clone();
+                return fetch('/pizzas.json')
+                .then((response) =>
+                {
+                    newresponce = response.clone();
+                    if(response.status === 200 && newresponce.headers.get('Last-Modified') != oldresponce.headers.get('Last-Modified'))
+                    {
+                        var responseToCache = response.clone();
+                        return UpdateCache(responseToCache);
+                    }
+                    else
+                    {
+                        return standartFetchFunction('/pizzas.json');
+                    }
+                })
+            })
 }
 
 function UpdateCache(responseToCache)
@@ -139,57 +147,75 @@ function UpdateCache(responseToCache)
     let oldPizzas = [];
     let newPizzas = [];
     var temp = responseToCache.clone();
-    return temp.json().then(function(json)
-    {
-        newPizzas = json.map(function(data) 
-        {
-            return data.ImageUrl
-        });
-    return caches.match('/pizzas.json').then(function(response)
-    {
-        return response.json().then(function(json)
-        {
-            oldPizzas = json.map(function(data) 
-                {
-                    return data.ImageUrl
-                });
-            return caches.open('pizzaagregator').then(function(cache)
+    return  temp.json()
+            .then((json) =>
             {
-                return cache.delete('/pizzas.json').then(function(result)
-                {
-                    if(result === true)
-                    {
-                        return cache.put('/pizzas.json', responseToCache.clone());
-                    } 
-                });
-            });           
-        });       
-    }).then(function()
-        {
-            let pizzasToDelete = GetImagesToDelete(oldPizzas,newPizzas);
-            let pizzasToAdd = GetImagesToAdd(oldPizzas,newPizzas);
-            return caches.open('images').then(function(cache)
-            {
-                let deletePromises = pizzasToDelete.map(function(image)
-                {
-                    return cache.delete(image)
-                });
-                return Promise.all(deletePromises).then(function()
-                {
-                    return cache.addAll(pizzasToAdd)
-                })               
+                newPizzas = json.map((data) => 
+                            {
+                                return data.ImageUrl
+                            });
+                return caches.match('/pizzas.json')
             })
-        }).then(function()
-        {
-            self.clients.matchAll().then(all => all.map(client => {client.postMessage("Application was updated")} ));
-            return responseToCache;
-        })
-        })      
+            .then((response) =>
+            {
+                return  response.json()
+                        .then((json) =>
+                        {
+                            oldPizzas = json.map((data) => 
+                            {
+                                return data.ImageUrl
+                            });
+                        return  caches.open('pizzaagregator')
+                        })
+            })
+            .then((cache) =>
+            {
+                return  cache.delete('/pizzas.json')
+                        .then((result) =>
+                        {
+                            if(result === true)
+                            {
+                                return cache.put('/pizzas.json', responseToCache.clone());
+                            } 
+                        });
+            })          
+            .then(() =>
+            {
+                return UpdateImagesCache(oldPizzas,newPizzas)
+            })
+            .then(() =>
+            {
+                self.clients.matchAll()
+                .then(all => all.map(client => {client.postMessage("Application was updated")} ));
+                return responseToCache;
+            })     
 }
+
+
+function UpdateImagesCache(oldPizzas,newPizzas)
+{
+    let pizzasToDelete = GetImagesToDelete(oldPizzas,newPizzas);
+    let pizzasToAdd = GetImagesToAdd(oldPizzas,newPizzas);
+    return  caches.open('images')
+            .then((cache) =>
+            {
+                let deletePromises = pizzasToDelete.map((image) =>
+                                     {
+                                        return cache.delete(image)
+                                     });
+                return Promise.all(deletePromises)
+                       .then(() =>
+                       {
+                        return cache.addAll(pizzasToAdd)
+                       })               
+            })
+}
+
+
 
 function GetImagesToDelete(oldPizzas, newPizzas)
 {
-    let pizzasToDelete = oldPizzas.filter(function(item)
+    let pizzasToDelete = oldPizzas.filter((item) =>
     {
         return !(newPizzas.indexOf(item) >= 0);
     });
@@ -198,7 +224,7 @@ function GetImagesToDelete(oldPizzas, newPizzas)
 
 function GetImagesToAdd(oldPizzas,newPizzas)
 {
-     let pizzasToAdd = newPizzas.filter(function(item)
+     let pizzasToAdd = newPizzas.filter((item) =>
     {
         return !(oldPizzas.indexOf(item) >= 0);
     });
